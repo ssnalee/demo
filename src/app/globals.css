@@ -1,26 +1,131 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* 잉크(슬레이트) 뉴트럴 */
+  --color-fg: #101828;
+  --color-fg-2: #344054;
+  --color-sub: #667085;
+  --color-bg: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-fill: #f2f4f7;
+  --color-fill-hover: #e9ecf1;
+  --color-line: #e4e7ec;
+  --color-line-2: #eef0f3;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+  /* 브랜드: 하늘색 */
+  --color-brand: #0ea5e9;
+  --color-brand-2: #38bdf8;
+  --color-brand-strong: #0284c7;
+  --color-brand-soft: #f0f9ff;
+  --color-brand-ring: rgba(14, 165, 233, 0.12);
+
+  /* 상태 */
+  --color-danger: #d92d20;
+  --color-danger-soft: #fef3f2;
+  --color-success: #067647;
+  --color-success-soft: #ecfdf3;
+  --color-warning: #b54708;
+  --color-warning-soft: #fffaeb;
+  --color-info: #175cd3;
+  --color-info-soft: #eff8ff;
+
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.03), 0 4px 16px -6px rgba(16, 24, 40, 0.08);
+  --shadow-pop: 0 24px 48px -12px rgba(16, 24, 40, 0.22), 0 4px 12px rgba(16, 24, 40, 0.06);
+
+  --animate-pop-in: pop-in 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --animate-fade-in: fade-in 0.15s ease-out;
+  --animate-rise-in: rise-in 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+
+  @keyframes pop-in {
+    from { opacity: 0; transform: translateY(6px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-bg text-fg text-sm leading-relaxed antialiased;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  ::selection {
+    background: var(--color-brand-soft);
+    color: var(--color-brand-strong);
+  }
+  input[type="radio"] {
+    accent-color: var(--color-brand);
+  }
+  /* 체크박스: 하늘색 + 흰 체크 (브라우저 기본은 밝은 색에 검정 체크를 그림) */
+  input[type="checkbox"] {
+    appearance: none;
+    display: inline-grid;
+    place-content: center;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    transition: background-color 0.12s, border-color 0.12s;
+  }
+  input[type="checkbox"]:hover {
+    border-color: var(--color-brand);
+  }
+  input[type="checkbox"]:checked,
+  input[type="checkbox"]:indeterminate {
+    border-color: var(--color-brand);
+    background: var(--color-brand) center / 11px no-repeat;
+  }
+  input[type="checkbox"]:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-4.9'/%3E%3C/svg%3E");
+  }
+  input[type="checkbox"]:indeterminate {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 6h6'/%3E%3C/svg%3E");
+  }
+  input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  :focus-visible {
+    outline-color: var(--color-brand);
+  }
+  /* 얇은 스크롤바 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #d0d5dd transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }
